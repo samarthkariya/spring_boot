@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+<head>
+<meta charset="UTF-8">
+<title>Update Dept</title>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+	crossorigin="anonymous"></script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<body>
+
+
+	<div class="container mt-5 border-3 justify-item-center"
+		id="Productcontainer">
+		<h1 class="container mb-3 ">Update Department Here</h1>
+
+
+		<form th:action="@{/deptc/register}" method="post" th:object="${edit}">
+
+			<div class="input-group mb-3">
+
+				<input type="hidden" hidden="true" th:value="${edit.dId}" name="dId">
+
+
+				<input type="text" name="dName" pattern="+[A-Za-z]"
+					th:value="${edit.dName}" class="form-control"
+					placeholder="Enter Organization Name"
+					aria-label="Sizing example input"
+					aria-describedby="inputGroup-sizing-default" required>
+
+			</div>
+
+			<button type="submit" class="btn btn-primary  btn-block mb-4 "
+				id="onSubmit">Update Department Data</button>
+
+		</form>
+
+	</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+<head>
+<meta charset="UTF-8">
+<title>Employee Home</title>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+	crossorigin="anonymous"></script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+</head>
+<body>
+
+	<div th:replace="fragment/nav :: navbar"></div>
+
+
+	<div class="container mt-5 border-3 justify-item-center"
+		id="Productcontainer">
+
+		<h1 class="container mb-3 ">Add Employee Here</h1>
+
+
+		<form th:action="@{/register}" method="post">
+
+			<div class="input-group mb-3">
+				<input type="text" name="eFirst_name" pattern="+[A-Za-z]"
+					class="form-control" placeholder="Enter First Name"
+					aria-label="Sizing example input"
+					aria-describedby="inputGroup-sizing-default" required>
+
+				&emsp;&emsp; <input type="text" name="eLast_name"
+					class="form-control" placeholder="Enter Last Name"
+					aria-label="Sizing example input"
+					aria-describedby="inputGroup-sizing-default" required>
+			</div>
+
+			<!-- Email input -->
+			<div class="input-group mb-3">
+				<input type="tel" pattern="[0-9]{10}" name="eContact_no"
+					class="form-control" placeholder="Contact Number">
+				&emsp;&emsp; <input type="text" name="eDesignation"
+					class="form-control" placeholder="Designation"
+					aria-label="Sizing example input"
+					aria-describedby="inputGroup-sizing-default" required>
+			</div>
+
+			<div class="input-group mb-3">
+				<!-- <input type="number"  name="eContact_no" class="form-control mt-3"
+					placeholder="Contact Number" aria-label="Sizing example input"
+					aria-describedby="inputGroup-sizing-default" required> -->
+
+
+				<!-- Drop Down   -->
+
+				<select class="form-select" name="department" id="department"
+					aria-label="Default select example">
+					<option selected value="-1">Select Department</option>
+					<option th:each="d: ${dept}" th:value="${d.dId}"
+						th:text="${d.dName}"></option>
+				</select> &emsp;&emsp; <select class="form-select" name="organization"
+					id="organization" aria-label="Default select example">
+					<option selected value="-1">Select Organization</option>
+					<option th:each="o: ${org}" th:value="${o.oId}"
+						th:text="${o.oName}"></option>
+				</select>
+
+
+			</div>
+
+			<button type="submit" class="btn btn-primary  btn-block mb-4 "
+				id="onSubmit">Add Employee Data</button>
+
+		</form>
+
+	</div>
+
+	<div class="container mt-3 border-3 justify-item-center">
+		<form th:action="@{/getfilter}" method="post">
+
+			<div class="input-group mb-3">
+				<select class="form-select" name="department" id="department"
+					aria-label="Default select example">
+					<option selected value="null">Select Department</option>
+					<option th:each="d: ${dept}" th:value="${d.dName}"
+						th:text="${d.dName}"></option>
+				</select> &emsp;&emsp; <select class="form-select" name="organization"
+					id="organization" aria-label="Default select example">
+					<option selected value="null">Select Organization</option>
+					<option th:each="o: ${org}" th:value="${o.oName}"
+						th:text="${o.oName}"></option>
+				</select>
+				<button type="submit" class="btn btn-primary  btn-block"
+					id="onSubmit">Search</button>
+
+			</div>
+
+
+
+		</form>
+	</div>
+
+
+
+
+
+
+	<div class="container text-center mt-5">
+
+		<!-- <a class="btn btn-primary  btn-block mb-4 " href="/add-emp">Add
+			Employee</a> -->
+
+		<table class="table table-dark p-2 table-striped" style="width: 100%">
+			<thead>
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">First_Name</th>
+					<th scope="col">Last_Name</th>
+					<th scope="col">Contact_No</th>
+					<th scope="col">Designation</th>
+					<th scope="col">Organization_id</th>
+					<th scope="col">Department_id</th>
+					<th scope="col" style="width: 10%"></th>
+					<th scope="col" style="width: 10%"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="e:${emp}">
+					<th th:text="${e.eId}"></th>
+					<td th:text="${e.eFirst_name}"></td>
+					<td th:text="${e.eLast_name}"></td>
+					<td th:text="${e.eContact_no}"></td>
+					<td th:text="${e.eDesignation}"></td>
+					<td th:text="${e.organization.oId}"></td>
+					<td th:text="${e.department.dId}"></td>
+					<td><a th:href="@{/edit/{id}(id=${e.eId})}"
+						class="btn btn-primary  btn-block mb-1 ">Edit</a></td>
+					<td><a th:href="@{/delete/{id}(id=${e.eId})}"
+						class="btn btn-danger  btn-block mb-1 ">Delete</a></td>
+				</tr>
+			</tbody>
+
+		</table>
+
+	</div>
+
+
+</body>
+</html>

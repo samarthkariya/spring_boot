@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.com">
+<head>
+<meta charset="UTF-8">
+<title>Dept Home</title>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+	crossorigin="anonymous">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+	crossorigin="anonymous"></script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<body>
+
+	<div th:replace="fragment/nav :: navbar"></div>
+
+
+
+	<div class="container mt-5 border-3 justify-item-center"
+		id="Productcontainer">
+		<h1 class="container mb-3 ">Add Department Here</h1>
+
+
+		<form th:action="@{/deptc/register}" method="post">
+
+			<div class="input-group mb-3">
+				<!-- <input type="number" name="dId" pattern="+[0-9]"
+						class="form-control" placeholder="Enter Organization Name"
+						aria-label="Sizing example input"
+						aria-describedby="inputGroup-sizing-default" required> -->
+
+				<!-- &emsp;&emsp; -->
+
+				<input type="text" name="dName" pattern="+[A-Za-z]"
+					class="form-control" placeholder="Enter Department Name"
+					aria-label="Sizing example input"
+					aria-describedby="inputGroup-sizing-default" required>
+			</div>
+
+			<button type="submit" class="btn btn-primary  btn-block mb-4 "
+				id="onSubmit">Add organization Data</button>
+
+		</form>
+
+	</div>
+
+
+
+	<div class="container text-center">
+
+		<!-- <a class="btn btn-primary  btn-block mb-4 " href="/add-emp">Add
+			Employee</a> -->
+
+		<table class="table table-dark p-2 table-striped" style="width: 100%">
+			<thead>
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">Department_Name</th>
+					<th scope="col" style="width: 10%"></th>
+					<th scope="col" style="width: 10%"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="d:${dept}">
+					<th th:text="${d.dId}"></th>
+					<td th:text="${d.dName}"></td>
+					<td><a th:href="@{/deptc/edit/{id}(id=${d.dId})}"
+						class="btn btn-primary  btn-block mb-1 ">Edit</a></td>
+					<td><a th:href="@{/deptc/delete/{id}(id=${d.dId})}"
+						class="btn btn-danger  btn-block mb-1 ">Delete</a></td>
+				</tr>
+			</tbody>
+
+		</table>
+
+	</div>
+
+
+
+</body>
+</html>
