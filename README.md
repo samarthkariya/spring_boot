@@ -48,3 +48,23 @@ public List<String> extractPRDiffsFromWebhook(Map<String, Object> payload) {
         return List.of("❌ Error extracting PR diffs: " + e.getMessage());
     }
 }
+
+public void commentOnPullRequest(String repoFullName, int prNumber, String commentText) {
+        String url = "https://api.github.com/repos/" + repoFullName + "/issues/" + prNumber + "/comments";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(githubToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+
+        Map<String, String> body = Map.of("body", commentText);
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(body, headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+            System.out.println("✅ PR comment posted: " + response.getStatusCode());
+        } catch (Exception e) {
+            System.out.println("❌ Failed to post PR comment: " + e.getMessage());
+        }
+    }
