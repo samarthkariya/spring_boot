@@ -1,8 +1,4 @@
-Test data
-Hello I am testing for PR Hwllo This is dummy request
-
-
-
+Hello the below is the test data for review the PR
 public String getReviewFromRAG(List<String> diffs) {
         try {
             // Combine all diffs into a single string
