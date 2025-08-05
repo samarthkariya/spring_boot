@@ -1,6 +1,58 @@
 Test data
 Hello I am testing for PR Hwllo This is dummy request
 
+
+
+public String getReviewFromRAG(List<String> diffs) {
+        try {
+            // Combine all diffs into a single string
+            StringBuilder diffBuilder = new StringBuilder();
+            for (String diff : diffs) {
+                diffBuilder.append(diff).append("\n");
+            }
+            String diffPayload = diffBuilder.toString();
+
+            // Prepare payload as a Map
+            Map<String, String> payload = new HashMap<>();
+            payload.put("diff", diffPayload);
+
+            // Convert to JSON
+            String jsonPayload = objectMapper.writeValueAsString(payload);
+
+            // Send HTTP POST request
+            URL url = new URL("http://localhost:5000/review");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setDoOutput(true);
+
+            // Send JSON body
+            try (OutputStream os = conn.getOutputStream()) {
+                byte[] input = jsonPayload.getBytes(StandardCharsets.UTF_8);
+                os.write(input, 0, input.length);
+            }
+
+            // Read response
+            StringBuilder response = new StringBuilder();
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    response.append(line.trim());
+                }
+            }
+
+            // Parse response JSON (assumes {"review": "..."})
+            Map<String, Object> result = objectMapper.readValue(response.toString(), Map.class);
+            return (String) result.getOrDefault("review", "No review found in response.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error communicating with RAG service: " + e.getMessage();
+        }
+    }
+    
 public List<String> extractPRDiffsFromWebhook(Map<String, Object> payload) {
     try {
         Map<String, Object> pullRequest = (Map<String, Object>) payload.get("pull_request");
